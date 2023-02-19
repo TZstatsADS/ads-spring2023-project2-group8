@@ -1,4 +1,3 @@
-
 if (!require("shiny")) {
   install.packages("shiny")
   library(shiny)
@@ -20,55 +19,93 @@ if (!require("leaflet.extras")) {
   library(leaflet.extras)
 }
 
+if (!require("shinydashboard")) {
+  install.packages("shinydashboard")
+  library(shiny)
+}
+
+unit_data = read.csv("../out/units_cleaned.csv")
+
 # Define UI for application that draws a histogram
 shinyUI(
-    navbarPage(strong("Citi Bike Study",style="color: white;"), 
-               theme=shinytheme("cerulean"), # select your themes https://rstudio.github.io/shinythemes/
-#------------------------------- tab panel - Maps ---------------------------------
-                tabPanel("Maps",
-                         icon = icon("map-marker-alt"), #choose the icon for
-                         div(class = 'outer',
-                        # side by side plots
-                        fluidRow(
-                                splitLayout(cellWidths = c("50%", "50%"), 
-                                             leafletOutput("left_map",width="100%",height=1200),
-                                             leafletOutput("right_map",width="100%",height=1200))),
-                        #control panel on the left
-                        absolutePanel(id = "control", class = "panel panel-default", fixed = TRUE, draggable = TRUE,
-                                      top = 200, left = 50, right = "auto", bottom = "auto", width = 250, height = "auto",
-                                      tags$h4('Citi Bike Activity Comparison'), 
-                                      tags$br(),
-                                      tags$h5('Pre-covid(Left) Right(Right)'), 
-                                      prettyRadioButtons(
-                                                      inputId = "adjust_score",
-                                                      label = "Score List:", 
-                                                      choices = c("start_cnt", 
-                                                                  "end_cnt", 
-                                                                  "day_diff_absolute",
-                                                                  "day_diff_percentage"),
-                                                      inline = TRUE, 
-                                                      status = "danger",
-                                                      fill = TRUE
-                                                        ),
-                                      awesomeRadio("adjust_time", 
-                                                   label="Time",
-                                                    choices =c("Overall",
-                                                               "Weekday", 
-                                                               "Weekend"), 
-                                                    selected = "Overall",
-                                                    status = "warning"),
-                                      # selectInput('adjust_weather',
-                                      #             label = 'Adjust for Weather',
-                                      #             choices = c('Yes','No'), 
-                                      #             selected = 'Yes'
-                                      #             ),
-                                      style = "opacity: 0.80"
-                                      
-                                ), #Panel Control - Closing
-                            ) #Maps - Div closing
-                        ) #tabPanel maps closing
-   
-
-
-    ) #navbarPage closing  
-) #Shiny UI closing    
+  dashboardPage(
+    skin = "black",
+    
+    dashboardHeader(
+      title = tags$h1("NYC Housing Production", style = "font-size: 19px")
+    ),
+    
+    dashboardSidebar(
+      sidebarMenu(
+        menuItem("Home", tabName = "Home", icon = icon("home")),
+        menuItem("Group1", tabName = "Group1", icon = icon("map")),
+        menuItem("Group2", tabName = "Group2", icon = icon("chart-line")),
+        menuItem("Group3", tabName = "Group3", icon = icon("chart-line")),
+        menuItem("Appendix", tabName = "Appendix", icon = icon("info"))
+      )
+    ),
+    
+    dashboardBody(
+      tags$style(type="text/css",
+                 ".shiny-output-error { visibility: hidden; }",
+                 ".shiny-output-error:before { visibility: hidden; }"
+      ),
+      
+      tabItems(
+        
+        tabItem(tabName = "Home",
+                fluidPage(
+                  titlePanel("This is Home "),
+                  HTML("home"),
+                )
+        ),  #Home
+        
+        tabItem(tabName = "Group1",
+                fluidPage(
+                  fluidRow(
+                    column(6,
+                           selectInput(inputId = "group1_year",
+                                       label = "Select Year",
+                                       selected = 2022,
+                                       choices = seq(min(unit_data$Start.Year),
+                                                     max(unit_data$Start.Year))),
+                           ),
+                    column(6,
+                           selectInput(inputId = "group1_unit",
+                                       label = "Select Unit",
+                                       selected = "Total_Units",
+                                       choices = c("Studio_Units","One_Bedroom_Units","Two_Bedroom_Units","Three_Bedroom_Units", "Four_Bedroom_Units", "Five_Bedroom_Units", "Six_Bedroom_Units","Total_Units")),
+                           
+                    ),
+                    column(12,
+                           leafletOutput("group1_map", height = '800px'))
+                  )
+                )
+        ),  #Group 1
+        
+        tabItem(tabName = "Group2",
+                fluidPage(
+                  titlePanel("This is Group2 "),
+                  HTML("group 2"),
+                )
+        ),  #Group 2
+        
+        
+        tabItem(tabName = "Group3",
+                fluidPage(
+                  titlePanel("This is Group3 "),
+                  HTML("group 3"),
+                )
+        ),  #Group 3
+        
+        tabItem(tabName = "Appendix", fluidPage(
+          titlePanel("This is Appendix"),
+          
+          HTML("appendix"),
+          
+        )) # appendix
+        
+      )   #item
+    ) # dashboardBody
+  )  #dashboardPage
+)
