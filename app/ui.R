@@ -93,8 +93,90 @@ shinyUI(
         
         tabItem(tabName = "Group3",
                 fluidPage(
-                  titlePanel("This is Group3 "),
-                  HTML("group 3"),
+                  # Add custom styles and colors to the app
+                  tags$head(tags$style(HTML("
+    body {
+      background-color: #f2f2f2;
+    }
+
+    .navbar {
+      background-color: #004d40 !important;
+      font-size: 20px;
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+      color: #ffffff;
+    }
+
+    h1 {
+      color: #004d40;
+      font-size: 36px;
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 30px;
+    }
+
+    h3 {
+      color: #004d40;
+      font-size: 24px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn-default {
+      background-color: #004d40;
+      border-color: #004d40;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    .btn-default:hover {
+      background-color: #ffffff;
+      border-color: #004d40;
+      color: #004d40;
+      font-size: 16px;
+    }
+
+    .well {
+      background-color: #f2f2f2;
+      border-color: #004d40;
+    }
+
+    .well h3 {
+      color: #004d40;
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .well hr {
+      border-top: 1px solid #004d40;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  "))),
+                  
+                  # Application title
+                  titlePanel("Maintenance overview"),
+                  
+                  # Add a dropdown menu to select a borough
+                  sidebarPanel(
+                    radioButtons("checkGroup", label = h3("Choose a borough"), 
+                                 choices = list("All boroughs" = 0, "Manhattan" = 1, "Bronx" = 2,"Brooklyn" = 3,"Queens" = 4,"Staten Island" = 5),
+                                 selected = 0),
+                  ),
+                  
+                  # Add the main content to the app
+                  mainPanel(
+                    plotOutput("line_plot1"),
+                    plotOutput("line_plot2"),
+                    plotOutput("line_plot3")
+                  )
                 )
         ),  #Group 3
         
