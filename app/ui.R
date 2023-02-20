@@ -40,7 +40,8 @@ shinyUI(
         menuItem("Home", tabName = "Home", icon = icon("home")),
         menuItem("Group1", tabName = "Group1", icon = icon("map")),
         menuItem("Group2", tabName = "Group2", icon = icon("chart-line")),
-        menuItem("Group3", tabName = "Group3", icon = icon("chart-line")),
+        menuItem("Group3A", tabName = "Group3A", icon = icon("chart-line")),
+        menuItem("Group3B", tabName = "Group3B", icon = icon("chart-line")),
         menuItem("Appendix", tabName = "Appendix", icon = icon("info"))
       )
     ),
@@ -91,7 +92,7 @@ shinyUI(
         ),  #Group 2
         
         
-        tabItem(tabName = "Group3",
+        tabItem(tabName = "Group3A",
                 fluidPage(
                   
                   # Application title
@@ -112,6 +113,16 @@ shinyUI(
                   )
                 )
         ),  #Group 3
+        
+        tabItem(tabName = 'Group3B',
+                fluidPage(
+                  titlePanel('Comparison before and during covid'),
+                  fluidRow(
+                    splitLayout(cellWidths = c("50%", "50%"), 
+                                leafletOutput("left_map",width="100%",height=1200),
+                                leafletOutput("right_map",width="100%",height=1200)))
+                )
+        ),
         
         tabItem(tabName = "Appendix", fluidPage(
           titlePanel("This is Appendix"),

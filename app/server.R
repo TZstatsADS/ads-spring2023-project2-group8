@@ -63,6 +63,8 @@ year_finished_rate_df = read.csv("../out/year_finished_rate_df.csv")
 year_borough_complaint_df = read.csv("../out/year_borough_complaint_df.csv")
 year_borough_finished_rate_df = read.csv("../out/year_borough_finished_rate_df.csv")
 year_BoroughID_finished_days_df = read.csv("../out/year_BoroughID_finished_days_df.csv")
+pre_covid_maintenance <- read.csv('../out/pre_covid_df.csv')
+covid_maintenance <- read.csv('../out/covid_df.csv')
 
 shinyServer(function(input, output) {
     #map
@@ -129,5 +131,26 @@ shinyServer(function(input, output) {
         labs(x = "Year", y = "Average days to finish a complaint", title = "Average finish days by year")
     }) 
     
+    output$left_map <- renderLeaflet({
+      pre_covid_df %>%
+        leaflet(options = leafletOptions(minZoom = 11, maxZoom = 13)) %>%
+        addProviderTiles("CartoDB.Positron",options = providerTileOptions(noWrap = TRUE)) %>%
+        setView(-73.9834,40.7504,zoom = 12) %>%
+        addCircles(
+          lng=pre_covid_df$lon,
+          lat=pre_covid_df$lat,
+          radius=pre_covid_df$totalcount)
+    }) #left map plot
+    
+    output$right_map <- renderLeaflet({
+      covid_df %>%
+        leaflet(options = leafletOptions(minZoom = 11, maxZoom = 13)) %>%
+        addProviderTiles("CartoDB.Positron",options = providerTileOptions(noWrap = TRUE)) %>%
+        setView(-73.9834,40.7504,zoom = 12) %>%
+        addCircles(
+          lng=covid_df$lon,
+          lat=covid_df$lat,
+          radius=covid_df$totalcount)
+    }) #right map plot
     
 })

@@ -55,3 +55,30 @@ write.csv(year_BoroughID_finished_days_df, file = "./out/year_BoroughID_finished
 
 write.csv(year_finished_days_df, file = "./out/year_finished_days_df.csv", row.names = FALSE)
 
+#data wrangling for shiny
+df<-Housing_Maintenance_df
+df['receiveddate1'] = as.Date(df$receiveddate)
+df['statusdate1'] = as.Date(df$statusdate)
+library(ggmap)
+register_google(key='AIzaSyAjVDLEkxD0EqUFzwjGIxmBgZELAifM-Pk')
+#eliminate false zip
+df1 = subset(df,nchar(df$zip)==5)
+df1= subset(df1,df1$receiveddate1<as.Date('2023-01-01'))
+df1= subset(df1,df1$receiveddate1>as.Date('2013-12-31'))
+location <- geocode(unique(df1$zip))
+loc<-cbind(location, unique(df1$zip))
+colnames(loc)[3]='zip'
+df2 <- merge(df1,loc,by='zip',all.x = TRUE)
+library(dplyr)
+df3<-df2 %>% group_by(receiveddate1,lon,lat,zip) %>%summarise(total_count=n(),.groups = 'drop')
+pre_covid_df = df3[difftime(df3$receiveddate1,"2020-01-21")<=0,] #2014-01-01 ~ 2020-01-21
+covid_df = df3[difftime(df3$receiveddate1,"2020-01-21")>=0,] #2020-01-31 ~ 2022-12-31
+
+pre_covid_df<-pre_covid_df%>%group_by(lon,lat,zip)%>%summarise(totalcount=sum(total_count))
+covid_df<-covid_df%>%group_by(lon,lat,zip)%>%summarise(totalcount=sum(total_count))
+#standardize the total cnt
+covid_df$totalcount<-covid_df$totalcount**1.5/as.integer(difftime("2023-01-01",as.Date('2020-01-21')))
+pre_covid_df$totalcount<-pre_covid_df$totalcount**1.5/as.integer(difftime('2020-01-21',"2013-12-31"))
+
+write.csv(pre_covid_df,'./out/pre_covid_df.csv')
+write.csv(covid_df,'./out/covid_df.csv')
