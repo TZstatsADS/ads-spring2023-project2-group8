@@ -63,8 +63,8 @@ year_finished_rate_df = read.csv("../out/year_finished_rate_df.csv")
 year_borough_complaint_df = read.csv("../out/year_borough_complaint_df.csv")
 year_borough_finished_rate_df = read.csv("../out/year_borough_finished_rate_df.csv")
 year_BoroughID_finished_days_df = read.csv("../out/year_BoroughID_finished_days_df.csv")
-pre_covid_maintenance <- read.csv('../out/pre_covid_df.csv')
-covid_maintenance <- read.csv('../out/covid_df.csv')
+pre_covid_df <- read.csv('../out/pre_covid_df.csv')
+covid_df <- read.csv('../out/covid_df.csv')
 
 shinyServer(function(input, output) {
     #map

@@ -32,16 +32,16 @@ shinyUI(
     skin = "black",
     
     dashboardHeader(
-      title = tags$h1("NYC Housing Production", style = "font-size: 19px")
+      title = tags$h1("NYC Housing", style = "font-size: 17px")
     ),
     
     dashboardSidebar(
       sidebarMenu(
         menuItem("Home", tabName = "Home", icon = icon("home")),
-        menuItem("Group1", tabName = "Group1", icon = icon("map")),
+        menuItem("Unit Map", tabName = "Group1", icon = icon("location-dot")),
         menuItem("Group2", tabName = "Group2", icon = icon("chart-line")),
-        menuItem("Group3A", tabName = "Group3A", icon = icon("chart-line")),
-        menuItem("Group3B", tabName = "Group3B", icon = icon("chart-line")),
+        menuItem("Housing Maintenance Trend", tabName = "Group3A", icon = icon("chart-line")),
+        menuItem("Housing Maintenance Map", tabName = "Group3B", icon = icon("map")),
         menuItem("Appendix", tabName = "Appendix", icon = icon("info"))
       )
     ),
@@ -56,9 +56,59 @@ shinyUI(
         
         tabItem(tabName = "Home",
                 fluidPage(
-                  titlePanel("This is Home "),
-                  HTML("home"),
+                  theme = shinytheme("cerulean"),
+                  tags$head(tags$style(HTML('
+                    .intro-header {
+                      background-color: #007bff;
+                      color: #fff;
+                      padding: 10px;
+                      font-size: 24px;
+                      font-weight: bold;
+                      margin-bottom: 20px;
+                    }
+                    .user-guide-header {
+                      background-color: #007bff;
+                      color: #fff;
+                      padding: 10px;
+                      font-size: 18px;
+                      font-weight: bold;
+                      margin-bottom: 10px;
+                    }
+                    .user-guide-text {
+                      background-color: #f8f9fa;
+                      padding: 10px;
+                      font-size: 16px;
+                    }
+                    .intro-text {
+                      background-color: #f8f9fa;
+                      padding: 10px;
+                      font-size: 20px;
+                    }
+                  '))),
+                  
+                  tags$div(class = "intro-header", "Introduction"),
+                  tags$p(class = "intro-text", "Covid-19 has a profound impact in New York city. Also, having a nice place to live is essential for everyone's survival and well-being. In this app, we track the NYC housing trends before and after covid-19. See 'User Guide' below to explore interesting trends and findings.  "
+                  ),
+                  
+                  tags$div(class = "user-guide-header", "User Guide"),
+                  
+                  tags$div(class = "user-guide-text", 
+                           tags$p(style = "font-size: 20px", "This app contains 5 pages and tracks the trend of NYC housing chronologically and geographically from various aspects: "),
+                           tags$ul(
+                             tags$li(style = "font-size: 20px", "Home: Introduction"),
+                             tags$li(style = "font-size: 20px", "Unit Map: The distribution of NYC housing with different number of bedrooms"),
+                             
+                             tags$li(style = "font-size: 20px", "Income Level: The trend of NYC housing for different income levels"),
+                             
+                             tags$li(style = "font-size: 20px", "Housing Maintenance Trend: The trend of NYC housing maintenance performance"),
+                             tags$li(style = "font-size: 20px", "Housing Maintenance Map: The distribution of NYC housing maintenance performance"),
+                             
+                             tags$li(style = "font-size: 20px", "Appendix: Data source, authors, and other statements")
+                           )
+                  )
                 )
+                
+                
         ),  #Home
         
         tabItem(tabName = "Group1",
@@ -124,11 +174,58 @@ shinyUI(
                 )
         ),
         
-        tabItem(tabName = "Appendix", fluidPage(
-          titlePanel("This is Appendix"),
+        tabItem(tabName = "Appendix",                 fluidPage(
+          theme = shinytheme("cerulean"),
+          tags$head(tags$style(HTML('
+                    .intro-header {
+                      background-color: #007bff;
+                      color: #fff;
+                      padding: 10px;
+                      font-size: 24px;
+                      font-weight: bold;
+                      margin-bottom: 20px;
+                    }
+                    .user-guide-header {
+                      background-color: #007bff;
+                      color: #fff;
+                      padding: 10px;
+                      font-size: 18px;
+                      font-weight: bold;
+                      margin-bottom: 10px;
+                    }
+                    .user-guide-text {
+                      background-color: #f8f9fa;
+                      padding: 10px;
+                      font-size: 16px;
+                    }
+                    .intro-text {
+                      background-color: #f8f9fa;
+                      padding: 10px;
+                      font-size: 20px;
+                    }
+                  '))),
           
-          HTML("appendix"),
+          tags$div(class = "user-guide-header", "Data Source"),
           
+          tags$div(class = "user-guide-text", 
+                   tags$ul(
+                     tags$li(style = "font-size: 20px", "NYC Open data: Affordable Housing Production by Building (https://data.cityofnewyork.us/Housing-Development/Affordable-Housing-Production-by-Building/hg8x-zxpr)"),
+                     tags$li(style = "font-size: 20px", "NYC Open data: Housing Maintenance Code Complaints (https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Complaints/uwyv-629c)"),
+                   )
+          ),
+          
+          tags$div(class = "user-guide-header", "Authors"),
+          
+          tags$div(class = "user-guide-text", 
+                   tags$ul(
+                     tags$li(style = "font-size: 20px", "Qingyang Tang"),
+                     tags$li(style = "font-size: 20px", "Zixun Zhang"),
+                     tags$li(style = "font-size: 20px", "Yi Xuan Qi"),
+                     tags$li(style = "font-size: 20px", "Yuanxi Li"),
+                     tags$li(style = "font-size: 20px", "Xiaoxue Ren"),
+                     tags$li(style = "font-size: 20px", "Zhi Huang")
+                   )
+          )
         )) # appendix
         
       )   #item
