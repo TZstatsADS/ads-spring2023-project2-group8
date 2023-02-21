@@ -1,0 +1,11 @@
+name: housing-app
+title:
+username:
+account: nyc-building
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8374567
+bundleId: 6871282
+url: https://nyc-building.shinyapps.io/housing-app/
+when: 1677007410.53345
+lastSyncTime: 1677007410.53347

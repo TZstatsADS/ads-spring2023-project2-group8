@@ -83,12 +83,16 @@ shinyServer(function(input, output) {
     output$group1_map <- renderLeaflet({
         Year <- input$group1_year
         Unit <- input$group1_unit
-        unit_data %>% 
+        
+        
+        unit_data <- unit_data %>% 
             dplyr::select("Start.Year", "Latitude", "Longitude", {{Unit}}) %>% 
-            dplyr::filter(Start.Year == Year) %>% 
+            dplyr::filter(Start.Year == Year)
+        unit_data <- unit_data[rep(row.names(unit_data), unit_data[[Unit]]),]
+        unit_data %>% 
             leaflet() %>% 
             addTiles() %>% 
-            addCircleMarkers(lng = ~Longitude, lat = ~Latitude, clusterOptions = markerClusterOptions())
+            addLabelOnlyMarkers(label= ~{{Unit}}, lng = ~Longitude, lat = ~Latitude, clusterOptions = markerClusterOptions())
     })
     
     # maintaines line plot
@@ -106,8 +110,8 @@ shinyServer(function(input, output) {
       ggplot(plot_data, aes(x = year, y = n)) +
         geom_line(color="grey") +
         geom_point(shape=21, color="black", fill="#d14115", size=6) +
-        theme_ipsum() +
-        labs(x = "Year", y = "Number of Complaints", title = "Number of complaints by Year")
+        labs(x = "Year", y = "Number of Complaints", title = "Number of complaints by Year") +
+        theme(text=element_text(size=16,  family="helvetica,arial,sans-serf"))
     })
     output$line_plot2 <- renderPlot({
       # Filter the data based on the selected borough
@@ -123,8 +127,8 @@ shinyServer(function(input, output) {
       ggplot(plot_data, aes(x = years, y = finished_rate)) +
         geom_line(color="grey") +
         geom_point(shape=21, color="black", fill="#15b2d1", size=6) +
-        theme_ipsum() +
-        labs(x = "Year", y = "Finished rate", title = "Finished rate by Year")
+        labs(x = "Year", y = "Finished rate", title = "Finished rate by Year")+
+        theme(text=element_text(size=16,  family="helvetica,arial,sans-serf"))
     })
     output$line_plot3 <- renderPlot({
       # Filter the data based on the selected borough
@@ -139,8 +143,8 @@ shinyServer(function(input, output) {
       ggplot(plot_data, aes(x=year, y=mean_days)) +
         geom_line(color="grey") +
         geom_point(shape=21, color="black", fill="#69b3a2", size=6) +
-        theme_ipsum() +
-        labs(x = "Year", y = "Average days to finish a complaint", title = "Average finish days by year")
+        labs(x = "Year", y = "Average days to finish a complaint", title = "Average finish days by year")+
+        theme(text=element_text(size=16,  family="helvetica,arial,sans-serf"))
     }) 
     
     output$left_map <- renderLeaflet({

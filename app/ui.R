@@ -50,8 +50,9 @@ shinyUI(
   dashboardPage(
     skin = "black",
     
+    
     dashboardHeader(
-      title = tags$h1("NYC Housing", style = "font-size: 17px")
+      title = "NYC Housing"
     ),
     
     dashboardSidebar(
@@ -67,6 +68,7 @@ shinyUI(
     
     dashboardBody(
       tags$style(type="text/css",
+                 "text {font-family: helvetica,arial,sans-serf}",
                  ".shiny-output-error { visibility: hidden; }",
                  ".shiny-output-error:before { visibility: hidden; }"
       ),
