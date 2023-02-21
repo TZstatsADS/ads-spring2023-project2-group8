@@ -39,6 +39,7 @@ Trend of NYC housing for people of different income levels
 Trend and distribution of NYC housing maintenance 
 
 + **Data source** :
+
 NYC Open data: Affordable Housing Production by Building (https://data.cityofnewyork.us/Housing-Development/Affordable-Housing-Production-by-Building/hg8x-zxpr)
 
 NYC Open data: Housing Maintenance Code Complaints (https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Complaints/uwyv-629c)
