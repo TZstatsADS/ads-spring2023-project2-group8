@@ -19,7 +19,7 @@ The **learning goals** for this project is:
 *The above general statement about project 2 can be removed once you are finished with your project. It is optional.
 
 ## NYC housing before and after covid-19
-Shiny app link: https://nyc-building.shinyapps.io/housing-app/
+## Shiny app link## : https://nyc-building.shinyapps.io/housing-app/
 
 
 Term: Spring 2023
