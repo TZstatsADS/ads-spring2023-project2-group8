@@ -35,7 +35,9 @@ Term: Spring 2023
 
 + **Project summary**: In this project, we developed a shiny app on NYC housing. In this app, we track the effect of covid-19 on housing from 3 dimensions:
 Distribution of housing units(number of bedrooms) of newly built houses
+
 Trend of NYC housing for people of different income levels
+
 Trend and distribution of NYC housing maintenance 
 
 + **Data source** :
