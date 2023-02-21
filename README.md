@@ -30,12 +30,12 @@ Term: Spring 2023
 	+ Tang, Qingyang
 	+ Zhang, Zixun
 
-+ **Project summary**: In this profject, we develop a shiny app on NYC housing. In this app, we track the effect of covid-19 on housing from 3 asepcts:
-+ :Distribution of housing units(number of bedrooms) of newly built houses
-+ :Trend of NYC housing for people of different income levels
-+ :Trend and distribution of NYC housing maintenance 
++ **Project summary**: In this project, we developed a shiny app on NYC housing. In this app, we track the effect of covid-19 on housing from 3 dimensions:
++ Distribution of housing units(number of bedrooms) of newly built houses
++ Trend of NYC housing for people of different income levels
++ Trend and distribution of NYC housing maintenance 
 
-+ **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members designed the study. Qi Yixuan built the framework of the overall project code and deployed the app. She also resloved commit conflicts and helped team memebers fix the code. For the detalied parts, Yixuan Qi and Li Yuanxi wrote the page of distribution of housing units. Ren Xiaoxue and Huang zhi wrote the page of trend of NYC housing for people of different income levels. Tang Qingyang and Zhang Zixun wrote the 2 pages of trend and distribution of NYC housing maintenance respectively. Tang QingYang also wrote the homepage and appendix. All team members approve our work presented in this GitHub repository including this contributions statement. 
++ **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members designed the study. Qi Yixuan built the framework of the overall project code and deployed the app. She also resolved commit conflicts and helped team members fix the code. For the detalied parts, Qi Yixuan and Li Yuanxi wrote the page of distribution of housing units. Ren Xiaoxue and Huang zhi wrote the page of trend of NYC housing for people of different income levels. Tang Qingyang and Zhang Zixun wrote the 2 pages of trend and distribution of NYC housing maintenance respectively. Tang QingYang also wrote the homepage and appendix. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
