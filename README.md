@@ -34,7 +34,7 @@ Term: Spring 2023
 	+ Zhang, Zixun
 
 + **Project summary**:
- In this project, we developed a shiny app on NYC housing. We track the effect of covid-19 on housing from 3 dimensions:
+  In this project, we developed a shiny app on NYC housing. We tracked the effect of covid-19 on housing from 3 dimensions:
 
   Distribution of housing units(number of bedrooms) of newly built houses
 
