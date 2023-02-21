@@ -24,7 +24,26 @@ if (!require("shinydashboard")) {
   library(shiny)
 }
 
+if (!require("tidyr")) {
+  install.packages("tidyr")
+  library(tidyr)
+}
+
+if (!require("dplyr")) {
+  install.packages("dplyr")
+  library(dplyr)
+}
+
 unit_data = read.csv("../out/units_cleaned.csv")
+
+df<-read.csv("../data/Affordable_Housing_Production_by_Building.csv")
+data<-df %>% drop_na(Longitude)
+data<-data %>% drop_na(Latitude)
+data = data %>% select(Project.ID, Project.Name, Project.Start.Date, Borough, Latitude, Longitude, Extremely.Low.Income.Units, Very.Low.Income.Units, Low.Income.Units, Moderate.Income.Units, Middle.Income.Units, Other.Income.Units)
+
+borough = unique(data$Borough)
+income_level = c('Extremely.Low.Income.Units', 'Very.Low.Income.Units', 'Low.Income.Units', 'Moderate.Income.Units', 'Middle.Income.Units', 'Other.Income.Units')
+
 
 # Define UI for application that draws a histogram
 shinyUI(
@@ -38,8 +57,8 @@ shinyUI(
     dashboardSidebar(
       sidebarMenu(
         menuItem("Home", tabName = "Home", icon = icon("home")),
-        menuItem("Unit Map", tabName = "Group1", icon = icon("location-dot")),
-        menuItem("Group2", tabName = "Group2", icon = icon("chart-line")),
+        menuItem("Housing Unit Map", tabName = "Group1", icon = icon("location-dot")),
+        menuItem("Selected Income Level Trend", tabName = "Group2", icon = icon("chart-line")),
         menuItem("Housing Maintenance Trend", tabName = "Group3A", icon = icon("chart-line")),
         menuItem("Housing Maintenance Map", tabName = "Group3B", icon = icon("map")),
         menuItem("Appendix", tabName = "Appendix", icon = icon("info"))
@@ -136,8 +155,37 @@ shinyUI(
         
         tabItem(tabName = "Group2",
                 fluidPage(
-                  titlePanel("This is Group2 "),
-                  HTML("group 2"),
+                  
+                  #navbar structure
+             
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          
+                                          selectInput(inputId = "base",
+                                                      label = "Select a Income Level",
+                                                      choices = income_level),
+                                          
+                                          selectInput(inputId = "bor_type",
+                                                      label = "Select a Comparing Borough",
+                                                      choices = borough),
+                                          
+                                          textInput(inputId = "timefrom",
+                                                    label = "from:",
+                                                    value = "2014"),
+                                          
+                                          textInput(inputId = "timeto",
+                                                    label = "To:",
+                                                    value = "2022"),
+                                          
+                                          helpText("Format example: any year between 2014 and 2022")
+                                        ),
+                                        
+                                        mainPanel(
+                                          plotOutput("timePlot")
+                                        )
+                                      ),
+                             
+                                
                 )
         ),  #Group 2
         

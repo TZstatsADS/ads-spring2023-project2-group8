@@ -50,11 +50,14 @@ if (!require("jsonlite")) {
   library(jsonlite)
 }
 
+if (!require("tidyr")) {
+  install.packages("tidyr")
+  library(tidyr)
+}
+
 # load processed data
 
-#data processing
-
-
+#data processing - some done in Lib r script
 unit_data = read.csv("../out/units_cleaned.csv")
 
 year_finished_days_df = read.csv("../out/year_finished_days_df.csv")
@@ -65,6 +68,15 @@ year_borough_finished_rate_df = read.csv("../out/year_borough_finished_rate_df.c
 year_BoroughID_finished_days_df = read.csv("../out/year_BoroughID_finished_days_df.csv")
 pre_covid_df <- read.csv('../out/pre_covid_df.csv')
 covid_df <- read.csv('../out/covid_df.csv')
+
+df<-read.csv("../data/Affordable_Housing_Production_by_Building.csv")
+data<-df %>% drop_na(Longitude)
+data<-data %>% drop_na(Latitude)
+data = data %>% select(Project.ID, Project.Name, Project.Start.Date, Borough, Latitude, Longitude, Extremely.Low.Income.Units, Very.Low.Income.Units, Low.Income.Units, Moderate.Income.Units, Middle.Income.Units, Other.Income.Units)
+
+borough = unique(data$Borough)
+income_level = c('Extremely.Low.Income.Units', 'Very.Low.Income.Units', 'Low.Income.Units', 'Moderate.Income.Units', 'Middle.Income.Units', 'Other.Income.Units')
+
 
 shinyServer(function(input, output) {
     #map
@@ -152,5 +164,66 @@ shinyServer(function(input, output) {
           lat=covid_df$lat,
           radius=covid_df$totalcount)
     }) #right map plot
+    
+    # income level trend
+    output$timePlot <- renderPlot({
+      tf = input$timefrom
+      tt = input$timeto
+      bs = input$base
+      bor = input$bor_type
+      
+      start_date = as.numeric(tf)
+      end_date = as.numeric(tt)
+      
+      if (bs == 'Extremely.Low.Income.Units'){
+        data_select = data[!(data$Extremely.Low.Income.Units == "0"), ]
+      } else if (bs == 'Very.Low.Income.Units'){
+        data_select = data[!(data$Very.Low.Income.Units == "0"), ]
+      } else if (bs == 'Low.Income.Units'){
+        data_select = data[!(data$Low.Income.Units == "0"), ]
+      } else if (bs == 'Moderate.Income.Units'){
+        data_select = data[!(data$Moderate.Income.Units == "0"), ]
+      } else if (bs == 'Middle.Income.Units'){
+        data_select = data[!(data$Middle.Income.Units == "0"), ]
+      } else if (bs == 'Other.Income.Units'){
+        data_select = data[!(data$Other.Income.Units == "0"), ]
+      }
+      
+      data_select$Project.Start.Date <- as.Date(data_select$Project.Start.Date, "%m/%d/%Y")
+      df2 <- data.frame(Project.Start.Date = data_select$Project.Start.Date,
+                        year = as.numeric(format(data_select$Project.Start.Date, format = "%Y")))
+      df2 <- df2[!duplicated(df2), ]
+      data_select <- merge(data_select, df2, by="Project.Start.Date")
+      data_select <- data_select %>% filter(year >= start_date) %>% filter(year <= end_date)
+      
+      if (bs == 'Extremely.Low.Income.Units'){
+        temp <- data_select[(data_select$Borough == bor), ] %>% group_by(year) %>% 
+          summarise(sum_Units=sum(Extremely.Low.Income.Units),
+                    .groups = 'drop') %>% as.data.frame()
+      } else if (bs == 'Very.Low.Income.Units'){
+        temp <- data_select[(data_select$Borough == bor), ] %>% group_by(year) %>% 
+          summarise(sum_Units=sum(Very.Low.Income.Units),
+                    .groups = 'drop') %>% as.data.frame()
+      } else if (bs == 'Low.Income.Units'){
+        temp <- data_select[(data_select$Borough == bor), ] %>% group_by(year) %>% 
+          summarise(sum_Units=sum(Low.Income.Units),
+                    .groups = 'drop') %>% as.data.frame()
+      } else if (bs == 'Moderate.Income.Units'){
+        temp <- data_select[(data_select$Borough == bor), ] %>% group_by(year) %>% 
+          summarise(sum_Units=sum(Moderate.Income.Units),
+                    .groups = 'drop') %>% as.data.frame()
+      } else if (bs == 'Middle.Income.Units'){
+        temp <- data_select[(data_select$Borough == bor), ] %>% group_by(year) %>% 
+          summarise(sum_Units=sum(Middle.Income.Units),
+                    .groups = 'drop') %>% as.data.frame()
+      } else if (bs == 'Other.Income.Units'){
+        temp <- data_select[(data_select$Borough == bor), ] %>% group_by(year) %>% 
+          summarise(sum_Units=sum(Other.Income.Units),
+                    .groups = 'drop') %>% as.data.frame()
+      }
+      
+      plot(temp$year,temp$sum_Units,xlab='Year', ylab='sum of units',main= paste0("Number of ", bs, ' in ', bor))
+      lines(temp$year,temp$sum_Units)
+    })
     
 })
