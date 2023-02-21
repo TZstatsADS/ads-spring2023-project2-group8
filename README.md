@@ -19,7 +19,7 @@ The **learning goals** for this project is:
 *The above general statement about project 2 can be removed once you are finished with your project. It is optional.
 
 ## NYC housing before and after covid-19
-## Shiny app link## : https://nyc-building.shinyapps.io/housing-app/
+## Shiny app link : https://nyc-building.shinyapps.io/housing-app/
 
 
 Term: Spring 2023
@@ -38,8 +38,9 @@ Distribution of housing units(number of bedrooms) of newly built houses
 Trend of NYC housing for people of different income levels
 Trend and distribution of NYC housing maintenance 
 
-+ Data source :
++ **Data source** :
 NYC Open data: Affordable Housing Production by Building (https://data.cityofnewyork.us/Housing-Development/Affordable-Housing-Production-by-Building/hg8x-zxpr)
+
 
 NYC Open data: Housing Maintenance Code Complaints (https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Complaints/uwyv-629c)
 
