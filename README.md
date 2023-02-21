@@ -22,7 +22,7 @@ The **learning goals** for this project is:
 Term: Spring 2023
 
 + Team # 8
-+ **NYC housing before and after covid-19**: + Team members
++ Team members
 	+ Huang, Zhi
 	+ Li, Yuanxi
 	+ Qi, Yi Xuan
